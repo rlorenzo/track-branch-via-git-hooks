@@ -1,6 +1,8 @@
 Tracking branch via git hooks
 
-Reference: http://help.github.com/post-receive-hooks/
+References 
+http://help.github.com/post-receive-hooks/
+http://blog.badsyntax.co/post/3014159260/github-web-hook-post-receive
 
 This script will respond to the JSON that github sends after a commit in a repo.
 Then it will look at the branch that a commit was made and if it is a specified
@@ -9,3 +11,11 @@ user for a specified local git repo.
 
 Then the git committer and specified admin will receive an email with the output
 of the git pull and some details from the commit.
+
+Installation
+
+1) To use script, but it in a web accessible directory.
+2) Copy/rename config.php.dist to config.php
+3) Set appropiate values for config.php
+4) Setup your github repo to point to this script as your post-receive hook 
+   server as mentioned here: http://help.github.com/post-receive-hooks/

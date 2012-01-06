@@ -1,0 +1,13 @@
+<?php
+/*
+ * Config values for git_post_receive.php 
+ */
+
+$tracking_branch = '';  // which branch to track
+$repo_location = '';    // where the git repo to update is located
+$admin_email = '';  // email address to contact for errors and every commit
+
+if (empty($tracking_branch) || empty($repo_location) || empty($admin_email)) {
+    die(error_log('missing a required config variable'));
+}
+?>
