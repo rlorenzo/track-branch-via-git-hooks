@@ -8,6 +8,7 @@
 
 // get script variables
 require 'config.php';
+require 'functions.php';
 
 // NOTE: JSON should come preinstalled with PHP starting with 5.2
 if (!function_exists('json_decode')) {
@@ -73,6 +74,7 @@ if (!empty($_POST['payload'])) {
         // will output and exit the git pull command as if it was run here
         $output = array(); $return_var = null;
         $cmd = sprintf("sudo -u %s ./gitpull.php", $repo_user);    // system should be setup to run gitpull.php as specified user        
+        debug('executing command: ' . $cmd);
         exec($cmd, $output, $return_var);        
         
         // if $return_var is non-zero, then an error happened
@@ -111,13 +113,5 @@ if (!empty($_POST['payload'])) {
     }
 } else {
     debug('no payload found');
-}
-
-// SCRIPT FUNCTIONS
-function debug($msg) {
-   global $debug;
-   if ($debug) {
-       error_log($msg);
-   }
 }
 ?>
