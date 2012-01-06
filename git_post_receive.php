@@ -9,10 +9,14 @@
 // get script variables
 require 'config.php';
 
+$debug = false; // turn on to output debugging code into error_log
+
 // NOTE: JSON should come preinstalled with PHP starting with 5.2
 if (!function_exists('json_decode')) {
     die(error_log('JSON not installed'));
 }
+
+debug('github script called by ' . $_SERVER['SERVER_ADDR']);
 
 // github sends git post-receive hooks as a single POST param called 'payload'
 /* POST param is in following JSON format:
@@ -51,6 +55,8 @@ if (!function_exists('json_decode')) {
  */
 
 if (!empty($_POST['payload'])) {    
+    debug('got payload: ' . $_POST['payload']);
+    
     // parse payload data
     $payload = json_decode($_POST['payload']);    
     // on error json_decode retuns null
@@ -61,12 +67,19 @@ if (!empty($_POST['payload'])) {
     
     // now make sure that the commit is for the branch we want to track
     if ($payload->ref === 'refs/heads/' . $tracking_branch) {
+        debug('payload is a commit to a tracking branch: ' . $tracking_branch);
+        
+        
+        
         // now run git pull for given repo
         $output = array(); $return_var = null;
         // sudo as repo owner and do pull command in git repo
         // see: http://stackoverflow.com/a/4415927/6001
-        exec(sprintf("su -s /bin/sh %s -c 'cd %s && /usr/bin/git pull'", $repo_user, $repo_location), $output, $return_var);
-        
+        $cmd = sprintf("su -s /bin/sh %s -c 'cd %s && /usr/bin/git pull'", $repo_user, $repo_location);
+        debug('executing command: ' . $cmd);
+        exec($cmd, $output, $return_var);
+        debug(sprintf('result of command: output = %s, return_var = %d', implode("\n", $output), $return_var));
+                
         // if $return_var is non-zero, then an error happened
         // http://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/exitcodes.html
         if (0 !== $return_var) {
@@ -95,6 +108,18 @@ if (!empty($_POST['payload'])) {
         if (empty($result)) {
             error_log('Could not send email notification for git_post_receive');
         }
+    } else {
+        debug('payload was not a commit to a tracking branch: ' . $tracking_branch);        
     }
+} else {
+    debug('no payload found');
+}
+
+// SCRIPT FUNCTIONS
+function debug($msg) {
+   global $debug;
+   if ($debug) {
+       error_log($msg);
+   }
 }
 ?>
