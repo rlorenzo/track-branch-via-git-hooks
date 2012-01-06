@@ -5,9 +5,10 @@
 
 $tracking_branch = '';  // which branch to track
 $repo_location = '';    // where the git repo to update is located
+$repo_user = '';  // the user who owns the git repo (apache must be able to sudo as user)
 $admin_email = '';  // email address to contact for errors and every commit
 
-if (empty($tracking_branch) || empty($repo_location) || empty($admin_email)) {
+if (empty($tracking_branch) || empty($repo_location) || empty($repo_user) || empty($admin_email)) {
     die(error_log('missing a required config variable'));
 }
 ?>

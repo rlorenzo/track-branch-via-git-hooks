@@ -9,8 +9,6 @@
 // get script variables
 require 'config.php';
 
-$tracking_branch = '';   // the branch you want to 
-
 // NOTE: JSON should come preinstalled with PHP starting with 5.2
 if (!function_exists('json_decode')) {
     die(error_log('JSON not installed'));
@@ -65,7 +63,9 @@ if (!empty($_POST['payload'])) {
     if ($payload->ref === 'refs/heads/' . $tracking_branch) {
         // now run git pull for given repo
         $output = array(); $return_var = null;
-        exec(sprintf('cd %s && git pull', $repo_location), $output, $return_var);
+        // sudo as repo owner and do pull command in git repo
+        // see: http://stackoverflow.com/a/4415927/6001
+        exec(sprintf("su -s /bin/sh %s -c 'cd %s && /usr/bin/git pull'", $repo_location), $output, $return_var);
         
         // if $return_var is non-zero, then an error happened
         // http://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/exitcodes.html
