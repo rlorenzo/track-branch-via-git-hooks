@@ -65,7 +65,7 @@ if (!empty($_POST['payload'])) {
         $output = array(); $return_var = null;
         // sudo as repo owner and do pull command in git repo
         // see: http://stackoverflow.com/a/4415927/6001
-        exec(sprintf("su -s /bin/sh %s -c 'cd %s && /usr/bin/git pull'", $repo_location), $output, $return_var);
+        exec(sprintf("su -s /bin/sh %s -c 'cd %s && /usr/bin/git pull'", $repo_user, $repo_location), $output, $return_var);
         
         // if $return_var is non-zero, then an error happened
         // http://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/exitcodes.html
