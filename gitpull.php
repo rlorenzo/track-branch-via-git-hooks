@@ -8,6 +8,9 @@
 require 'config.php';
 require 'functions.php';
 
+debug(sprintf('gitpull.php called: get_script_user() = %s, is_cli() = %s', 
+        get_script_user(), is_cli()));
+
 // make sure that script is run from command line and as specified repo user
 if (get_script_user() == $repo_user && is_cli()) {
     // now run git pull for given repo
@@ -16,6 +19,8 @@ if (get_script_user() == $repo_user && is_cli()) {
     $cmd = sprintf("cd %s && /usr/bin/git pull", $repo_location);
     debug('executing command: ' . $cmd);
     exec($cmd, $output, $return_var);
+    
+    debug('cmd output: ' . implode("\n", $output));    
 
     // output command results
     echo(implode("\n", $output));

@@ -77,6 +77,8 @@ if (!empty($_POST['payload'])) {
         debug('executing command: ' . $cmd);
         exec($cmd, $output, $return_var);        
         
+        debug('cmd output: ' . implode("\n", $output));
+        
         // if $return_var is non-zero, then an error happened
         // http://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/exitcodes.html
         if (0 !== $return_var) {
