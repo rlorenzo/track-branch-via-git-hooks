@@ -7,8 +7,8 @@
  */
 
 // get script variables
-require 'config.php';
-require 'functions.php';
+require dirname(__FILE__) . '/config.php';
+require dirname(__FILE__) . '/functions.php';
 
 // NOTE: JSON should come preinstalled with PHP starting with 5.2
 if (!function_exists('json_decode')) {
@@ -73,7 +73,7 @@ if (!empty($_POST['payload'])) {
         // so will need to execute that script as specified user. That script
         // will output and exit the git pull command as if it was run here
         $output = array(); $return_var = null;
-        $cmd = sprintf("sudo -u %s ./gitpull.php", $repo_user);    // system should be setup to run gitpull.php as specified user        
+        $cmd = sprintf("sudo -u %s %s/gitpull.php", $repo_user, dirname(__FILE__));    // system should be setup to run gitpull.php as specified user        
         debug('executing command: ' . $cmd);
         exec($cmd, $output, $return_var);        
         
@@ -92,13 +92,8 @@ if (!empty($_POST['payload'])) {
             // update was successful, so email committer and admin
             
             // get emails of committers
-            $committers = array($admin_email);
-            foreach ((array) $payload->commits as $commit) {
-                $committers[] = $commit->author->email;
-            }
-            array_unique($committers);
-
-            debug('update successful, emailing committer and admin: ' . implode(';', $committers));            
+            $committers = array($admin_email, $payload->pusher->email);
+            debug('update successful, emailing pusher and admin: ' . implode(';', $committers));            
             
             $result = mail(implode(';', $committers), 'git_post_receive: ' . 
                     'Updated branch ' . $tracking_branch, sprintf("Updated %s " . 

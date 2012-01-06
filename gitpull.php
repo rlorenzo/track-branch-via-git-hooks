@@ -5,8 +5,8 @@
  */
 
 // get script variables
-require 'config.php';
-require 'functions.php';
+require dirname(__FILE__) . '/config.php';
+require dirname(__FILE__) . '/functions.php';
 
 debug(sprintf('gitpull.php called: get_script_user() = %s, is_cli() = %s', 
         get_script_user(), is_cli()));

@@ -9,7 +9,7 @@ Then it will look at the branch that a commit was made and if it is a specified
 branch the script will then perform a sudo to do a request pull as a specified
 user for a specified local git repo.
 
-Then the git committer and specified admin will receive an email with the output
+Then the git pusher and specified admin will receive an email with the output
 of the git pull and some details from the commit.
 
 Installation
