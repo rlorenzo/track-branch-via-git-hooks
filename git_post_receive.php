@@ -73,7 +73,8 @@ if (!empty($_POST['payload'])) {
         // will output and exit the git pull command as if it was run here
         $output = array(); $return_var = null;
         $cmd = sprintf("./gitpull.php");    // system should be setup to run gitpull.php as specified user        
-                
+        exec($cmd, $output, $return_var);        
+        
         // if $return_var is non-zero, then an error happened
         // http://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/exitcodes.html
         if (0 !== $return_var) {
