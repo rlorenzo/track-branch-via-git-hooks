@@ -12,7 +12,7 @@ if (get_script_user() == $repo_user && is_cli()) {
     // now run git pull for given repo
     $output = array();
     $return_var = null;
-    $cmd = sprintf("cd %s && /usr/bin/git pull", $repo_user, $repo_location);
+    $cmd = sprintf("cd %s && /usr/bin/git pull", $repo_location);
     exec($cmd, $output, $return_var);
 
     // output command results
