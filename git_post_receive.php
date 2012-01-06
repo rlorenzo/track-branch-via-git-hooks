@@ -82,8 +82,8 @@ if (!empty($_POST['payload'])) {
             // there was an error, so email the admin
             debug('there was an error, emailing admin: ' . $admin_email);
             $result = mail($admin_email, 'git_post_receive: Failed to update ' . 
-                    'branch ' . $tracking_branch, sprintf("command line " . 
-                    "output:\n\n%s\n\njson_payload:\n\n%s", 
+                    'branch ' . $tracking_branch, sprintf("return_var: %d\n\ncommand line " . 
+                    "output:\n\n%s\n\njson_payload:\n\n%s", $return_var,
                     implode("\n", $output), print_r($payload, true)));
         } else {
             // update was successful, so email committer and admin
