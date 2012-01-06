@@ -9,8 +9,6 @@
 // get script variables
 require 'config.php';
 
-$debug = false; // turn on to output debugging code into error_log
-
 // NOTE: JSON should come preinstalled with PHP starting with 5.2
 if (!function_exists('json_decode')) {
     die(error_log('JSON not installed'));
