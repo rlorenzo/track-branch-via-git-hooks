@@ -72,7 +72,7 @@ if (!empty($_POST['payload'])) {
         // so will need to execute that script as specified user. That script
         // will output and exit the git pull command as if it was run here
         $output = array(); $return_var = null;
-        $cmd = sprintf("./gitpull.php");    // system should be setup to run gitpull.php as specified user        
+        $cmd = sprintf("sudo -u %s ./gitpull.php", $repo_user);    // system should be setup to run gitpull.php as specified user        
         exec($cmd, $output, $return_var);        
         
         // if $return_var is non-zero, then an error happened
