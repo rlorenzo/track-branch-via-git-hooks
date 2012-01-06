@@ -62,7 +62,7 @@ if (!empty($_POST['payload'])) {
     }
     
     // now make sure that the commit is for the branch we want to track
-    if ($payload->ref === $tracking_branch) {
+    if ($payload->ref === 'refs/heads/' . $tracking_branch) {
         // now run git pull for given repo
         $output = array(); $return_var = null;
         exec(sprintf('cd %s && git pull', $repo_location), $output, $return_var);
