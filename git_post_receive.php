@@ -69,21 +69,18 @@ if (!empty($_POST['payload'])) {
     if ($payload->ref === 'refs/heads/' . $tracking_branch) {
         debug('payload is a commit to a tracking branch: ' . $tracking_branch);
         
-        
-        
-        // now run git pull for given repo
+        // this is kinda convoluted, but necessary for security (?). apache
+        // user only has the ability to run a specified script as specified user
+        // so will need to execute that script as specified user. That script
+        // will output and exit the git pull command as if it was run here
         $output = array(); $return_var = null;
-        // sudo as repo owner and do pull command in git repo
-        // see: http://stackoverflow.com/a/4415927/6001
-        $cmd = sprintf("su -s /bin/sh %s -c 'cd %s && /usr/bin/git pull'", $repo_user, $repo_location);
-        debug('executing command: ' . $cmd);
-        exec($cmd, $output, $return_var);
-        debug(sprintf('result of command: output = %s, return_var = %d', implode("\n", $output), $return_var));
+        $cmd = sprintf("./gitpull.php");    // system should be setup to run gitpull.php as specified user        
                 
         // if $return_var is non-zero, then an error happened
         // http://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/exitcodes.html
         if (0 !== $return_var) {
             // there was an error, so email the admin
+            debug('there was an error, emailing admin: ' . $admin_email);
             $result = mail($admin_email, 'git_post_receive: Failed to update ' . 
                     'branch ' . $tracking_branch, sprintf("command line " . 
                     "output:\n\n%s\n\njson_payload:\n\n%s", 
@@ -97,6 +94,8 @@ if (!empty($_POST['payload'])) {
                 $committers[] = $commit->author->email;
             }
             array_unique($committers);
+
+            debug('update successful, emailing committer and admin: ' . implode(';', $committers));            
             
             $result = mail(implode(';', $committers), 'git_post_receive: ' . 
                     'Updated branch ' . $tracking_branch, sprintf("Updated %s " . 

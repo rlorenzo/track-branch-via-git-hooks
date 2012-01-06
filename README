@@ -19,3 +19,6 @@ Installation
 3) Set appropiate values for config.php
 4) Setup your github repo to point to this script as your post-receive hook 
    server as mentioned here: http://help.github.com/post-receive-hooks/
+5) Setup apache user to run gitpull.php script has specified user. Edit sudoer 
+   file with:
+   apache ALL = (<USER>) NOPASSWD: <PATH_TO_SCRIPT>/gitpull.sh
