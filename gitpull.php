@@ -1,4 +1,4 @@
-#!/bin/php
+#!/usr/bin/php
 <?php
 /*
  * Commands to be run via command line as specified user.
