@@ -99,8 +99,8 @@ if (!empty($_POST['payload'])) {
             $sent_email = mail(implode(',', $committers), 'git_post_receive: ' . 
                     'Updated branch ' . $tracking_branch, sprintf("Updated %s " . 
                     "branch on the server. Here is the output of the pull " . 
-                    "request:\n\n%s\n\njson_payload:\n\n%s", $tracking_branch, 
-                    implode("\n", $output), print_r($payload, true)));            
+                    "request:\n\n%s", $tracking_branch, 
+                    implode("\n", $output)));            
         }
         
         if (empty($sent_email)) {
