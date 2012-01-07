@@ -65,6 +65,7 @@ if (!empty($_POST['payload'])) {
     }
     
     // now make sure that the commit is for the branch we want to track
+    $sent_email = false;
     if ($payload->ref === 'refs/heads/' . $tracking_branch) {
         debug('payload is a commit to a tracking branch: ' . $tracking_branch);
         
@@ -84,7 +85,7 @@ if (!empty($_POST['payload'])) {
         if (0 !== $return_var) {
             // there was an error, so email the admin
             debug('there was an error, emailing admin: ' . $admin_email);
-            $result = mail($admin_email, 'git_post_receive: Failed to update ' . 
+            $sent_email = mail($admin_email, 'git_post_receive: Failed to update ' . 
                     'branch ' . $tracking_branch, sprintf("return_var: %d\n\ncommand line " . 
                     "output:\n\n%s\n\njson_payload:\n\n%s", $return_var,
                     implode("\n", $output), print_r($payload, true)));
@@ -95,14 +96,14 @@ if (!empty($_POST['payload'])) {
             $committers = array($admin_email, $payload->pusher->email);
             debug('update successful, emailing pusher and admin: ' . implode(';', $committers));            
             
-            $result = mail(implode(';', $committers), 'git_post_receive: ' . 
+            $sent_email = mail(implode(';', $committers), 'git_post_receive: ' . 
                     'Updated branch ' . $tracking_branch, sprintf("Updated %s " . 
                     "branch on the server. Here is the output of the pull " . 
                     "request:\n\n%s\n\njson_payload:\n\n%s", $tracking_branch, 
                     implode("\n", $output), print_r($payload, true)));            
         }
         
-        if (empty($result)) {
+        if (empty($sent_email)) {
             error_log('Could not send email notification for git_post_receive');
         }
     } else {
