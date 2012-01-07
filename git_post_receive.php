@@ -96,7 +96,7 @@ if (!empty($_POST['payload'])) {
             $committers = array($admin_email, $payload->pusher->email);
             debug('update successful, emailing pusher and admin: ' . implode(';', $committers));            
             
-            $sent_email = mail(implode(';', $committers), 'git_post_receive: ' . 
+            $sent_email = mail(implode(',', $committers), 'git_post_receive: ' . 
                     'Updated branch ' . $tracking_branch, sprintf("Updated %s " . 
                     "branch on the server. Here is the output of the pull " . 
                     "request:\n\n%s\n\njson_payload:\n\n%s", $tracking_branch, 
