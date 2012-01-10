@@ -97,9 +97,10 @@ if (!empty($_POST['payload'])) {
             debug('update successful, emailing pusher and admin: ' . implode(';', $committers));            
             
             $sent_email = mail(implode(',', $committers), 'git_post_receive: ' . 
-                    'Updated branch ' . $tracking_branch, sprintf("Updated %s " . 
+                    'Updated repo at %s with latest changes from branch ' . 
+                    $tracking_branch, sprintf("Updated %s " . 
                     "branch on the server. Here is the output of the pull " . 
-                    "request:\n\n%s", $tracking_branch, 
+                    "request:\n\n%s", $repo_location, $tracking_branch, 
                     implode("\n", $output)));            
         }
         
