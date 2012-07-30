@@ -14,7 +14,7 @@ of the git pull and some details from the commit.
 
 Installation
 
-1) To use script, but it in a web accessible directory.
+1) To use script, put it in a web accessible directory.
 2) Copy/rename config.php.dist to config.php
 3) Set appropiate values for config.php
 4) Setup your github repo to point to this script as your post-receive hook 
