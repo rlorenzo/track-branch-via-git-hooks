@@ -22,10 +22,6 @@ Installation
 5) Setup apache user to run gitpull.php script has specified user. Edit sudoer 
    file with:
    apache ALL = (<USER>) NOPASSWD: <PATH_TO_SCRIPT>/gitpull.php
-
-NOTE
-
-If you are having trouble having the apache sudo and run a script as a different
-user, be sure that your sudoers file has "Default requiretty" commented out:
-
-http://www.zimbra.com/forums/installation/10553-solved-sudo-sorry-you-must-have-tty-run-sudo.html
+6) Make sure that your sudoers file has "Default requiretty" commented out, so
+   that the apache user can sudo and run a string as a different user:
+   http://www.zimbra.com/forums/installation/10553-solved-sudo-sorry-you-must-have-tty-run-sudo.html
