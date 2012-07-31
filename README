@@ -21,7 +21,7 @@ Installation
    server as mentioned here: http://help.github.com/post-receive-hooks/
 5) Setup apache user to run gitpull.php script has specified user. Edit sudoer 
    file with:
-   apache ALL = (<USER>) NOPASSWD: <PATH_TO_SCRIPT>/gitpull.sh
+   apache ALL = (<USER>) NOPASSWD: <PATH_TO_SCRIPT>/gitpull.php
 
 NOTE
 
