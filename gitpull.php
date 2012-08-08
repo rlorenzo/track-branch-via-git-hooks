@@ -16,7 +16,10 @@ if (get_script_user() == $repo_user && is_cli()) {
     // now run git pull for given repo
     $output = array();
     $return_var = null;
-    $cmd = sprintf("cd %s && /usr/bin/git pull", $repo_location);
+    
+    // update repo and any submodules
+    $cmd = sprintf("cd %s && /usr/bin/git pull && /usr/bin/git submodule init && /usr/bin/git submodule update", $repo_location);
+    
     debug('executing command: ' . $cmd);
     exec($cmd, $output, $return_var);
     
