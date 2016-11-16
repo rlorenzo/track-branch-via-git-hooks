@@ -18,7 +18,7 @@ if (get_script_user() == $repo_user && is_cli()) {
     $return_var = null;
     
     // update repo and any submodules
-    $cmd = sprintf("cd %s && /usr/bin/git pull && /usr/bin/git submodule sync && /usr/bin/git submodule update --init", $repo_location);
+    $cmd = sprintf("cd %s && /usr/bin/git pull && /usr/bin/git submodule sync && /usr/bin/git submodule update --init --recursive", $repo_location);
     
     debug('executing command: ' . $cmd);
     exec($cmd, $output, $return_var);
