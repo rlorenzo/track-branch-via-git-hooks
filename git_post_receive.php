@@ -92,6 +92,12 @@ if (!empty($_POST['payload'])) {
         } else {
             // update was successful, so email committer and admin
             
+            // ignore anonymous Github emails
+            if (strpos($payload->pusher->email, 'users.noreply.github.com') !== false) {
+              debug('Ignoring noreply email ' . $payload->pusher->email);
+              $payload->pusher->email = '';
+            }
+
             // get emails of committers
             $committers = array($admin_email, $payload->pusher->email);
             debug('update successful, emailing pusher and admin: ' . implode(';', $committers));            
